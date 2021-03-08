@@ -1,0 +1,13 @@
+from __future__ import absolute_import, division, print_function
+
+import octane
+
+BASE_URL = "/v1/measurements"
+TEST_RESOURCE_ID = "measurement_123"
+
+
+class TestMeasurement(object):
+    def test_is_creatable(self, request_mock):
+        resource = octane.Measurement.create()
+        request_mock.assert_requested("post", BASE_URL)
+        assert isinstance(resource, octane.Measurement)

@@ -1,0 +1,11 @@
+[paths]
+source =
+    octane
+    */site-packages
+
+[run]
+branch = true
+parallel = true
+source = octane
+omit =
+    octane/six.py
