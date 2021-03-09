@@ -33,7 +33,7 @@ class OctaneMock(object):
 
         cls._process = subprocess.Popen(
             [
-                "octane-mock",
+                "stripe-mock",
                 "-http-port",
                 str(cls._port),
                 "-spec",
