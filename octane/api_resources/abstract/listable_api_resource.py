@@ -1,4 +1,5 @@
 from __future__ import absolute_import, division, print_function
+from octane.octane_object import OctaneObject
 
 from octane import api_requestor, util
 from octane.api_resources.abstract.api_resource import APIResource
@@ -21,5 +22,16 @@ class ListableAPIResource(APIResource):
         octane_object = util.convert_to_octane_object(
             response, api_key, octane_version
         )
-        octane_object._retrieve_params = params
+
+        def _add_params(obj, params):
+            if isinstance(obj, OctaneObject):
+                obj._retreieve_params = params
+                return
+
+            if isinstance(obj, list):
+                for e in obj:
+                    _add_params(e, params)
+
+        _add_params(octane_object, params)
+
         return octane_object

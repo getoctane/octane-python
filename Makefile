@@ -1,4 +1,4 @@
-VENV_NAME?=venv
+VENV_NAME?=env
 PIP?=pip3
 PYTHON?=python3
 

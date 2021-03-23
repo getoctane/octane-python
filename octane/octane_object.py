@@ -42,7 +42,7 @@ class OctaneObject(dict):
 
     def __init__(
         self,
-        id=None,
+        name=None,
         api_key=None,
         octane_version=None,
         last_response=None,
@@ -60,8 +60,8 @@ class OctaneObject(dict):
         object.__setattr__(self, "api_key", api_key)
         object.__setattr__(self, "octane_version", octane_version)
 
-        if id:
-            self["id"] = id
+        if name:
+            self["name"] = name
 
     @property
     def last_response(self):
@@ -148,7 +148,7 @@ class OctaneObject(dict):
         reduce_value = (
             type(self),  # callable
             (  # args
-                self.get("id", None),
+                self.get("name", None),
                 self.api_key,
                 self.octane_version,
             ),
@@ -165,7 +165,7 @@ class OctaneObject(dict):
         last_response=None,
     ):
         instance = cls(
-            values.get("id"),
+            values.get("name"),
             api_key=key,
             octane_version=octane_version,
             last_response=last_response,
@@ -239,8 +239,8 @@ class OctaneObject(dict):
         if isinstance(self.get("object"), six.string_types):
             ident_parts.append(self.get("object"))
 
-        if isinstance(self.get("id"), six.string_types):
-            ident_parts.append("id=%s" % (self.get("id"),))
+        if isinstance(self.get("name"), six.string_types):
+            ident_parts.append("name=%s" % (self.get("name"),))
 
         unicode_repr = "<%s at %s> JSON: %s" % (
             " ".join(ident_parts),
@@ -281,8 +281,8 @@ class OctaneObject(dict):
         }
 
     @property
-    def octane_id(self):
-        return self.id
+    def octane_name(self):
+        return self.name
 
     def serialize(self, previous):
         params = {}
@@ -290,7 +290,7 @@ class OctaneObject(dict):
         previous = previous or self._previous or {}
 
         for k, v in six.iteritems(self):
-            if k == "id" or (isinstance(k, str) and k.startswith("_")):
+            if k == "name" or (isinstance(k, str) and k.startswith("_")):
                 continue
             elif isinstance(v, octane.api_resources.abstract.APIResource):
                 continue
@@ -312,7 +312,7 @@ class OctaneObject(dict):
     # arguments so that we can bypass these possible exceptions on __setitem__.
     def __copy__(self):
         copied = OctaneObject(
-            self.get("id"),
+            self.get("name"),
             self.api_key,
             octane_version=self.octane_version,
         )

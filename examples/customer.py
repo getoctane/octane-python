@@ -9,7 +9,7 @@ octane.api_key = os.environ.get("OCTANE_SECRET_KEY")
 
 print("Attempting to create customer...")
 
-resp = octane.Charge.create(
+resp = octane.Customer.create(
     name="Customer1",
 )
 

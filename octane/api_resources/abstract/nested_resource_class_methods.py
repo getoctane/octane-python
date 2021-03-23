@@ -15,14 +15,14 @@ def nested_resource_class_methods(
         raise ValueError("operations list required")
 
     def wrapper(cls):
-        def nested_resource_url(cls, id, nested_id=None):
+        def nested_resource_url(cls, name, nested_name=None):
             url = "%s/%s/%s" % (
                 cls.class_url(),
-                quote_plus(id),
+                quote_plus(name),
                 quote_plus(path),
             )
-            if nested_id is not None:
-                url += "/%s" % quote_plus(nested_id)
+            if nested_name is not None:
+                url += "/%s" % quote_plus(nested_name)
             return url
 
         resource_url_method = "%ss_url" % resource
@@ -54,8 +54,8 @@ def nested_resource_class_methods(
         for operation in operations:
             if operation == "create":
 
-                def create_nested_resource(cls, id, **params):
-                    url = getattr(cls, resource_url_method)(id)
+                def create_nested_resource(cls, name, **params):
+                    url = getattr(cls, resource_url_method)(name)
                     return getattr(cls, resource_request_method)(
                         "post", url, **params
                     )
@@ -67,8 +67,8 @@ def nested_resource_class_methods(
 
             elif operation == "retrieve":
 
-                def retrieve_nested_resource(cls, id, nested_id, **params):
-                    url = getattr(cls, resource_url_method)(id, nested_id)
+                def retrieve_nested_resource(cls, name, nested_id, **params):
+                    url = getattr(cls, resource_url_method)(name, nested_id)
                     return getattr(cls, resource_request_method)(
                         "get", url, **params
                     )
@@ -80,8 +80,8 @@ def nested_resource_class_methods(
 
             elif operation == "update":
 
-                def modify_nested_resource(cls, id, nested_id, **params):
-                    url = getattr(cls, resource_url_method)(id, nested_id)
+                def modify_nested_resource(cls, name, nested_id, **params):
+                    url = getattr(cls, resource_url_method)(name, nested_id)
                     return getattr(cls, resource_request_method)(
                         "post", url, **params
                     )
@@ -93,8 +93,8 @@ def nested_resource_class_methods(
 
             elif operation == "delete":
 
-                def delete_nested_resource(cls, id, nested_id, **params):
-                    url = getattr(cls, resource_url_method)(id, nested_id)
+                def delete_nested_resource(cls, name, nested_id, **params):
+                    url = getattr(cls, resource_url_method)(name, nested_id)
                     return getattr(cls, resource_request_method)(
                         "delete", url, **params
                     )
@@ -106,8 +106,8 @@ def nested_resource_class_methods(
 
             elif operation == "list":
 
-                def list_nested_resources(cls, id, **params):
-                    url = getattr(cls, resource_url_method)(id)
+                def list_nested_resources(cls, name, **params):
+                    url = getattr(cls, resource_url_method)(name)
                     return getattr(cls, resource_request_method)(
                         "get", url, **params
                     )

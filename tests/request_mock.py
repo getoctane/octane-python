@@ -11,7 +11,7 @@ class RequestMock(object):
     def __init__(self, mocker):
         self._mocker = mocker
 
-        self._real_request = octane.api_requestor.APIRequestor.request
+        # self._real_request = octane.api_requestor.APIRequestor.request
         self._stub_request_handler = StubRequestHandler()
 
         self.constructor_patcher = self._mocker.patch(
@@ -28,10 +28,9 @@ class RequestMock(object):
 
     def _patched_request(self, requestor, method, url, *args, **kwargs):
         response = self._stub_request_handler.get_response(method, url)
-        if response is not None:
-            return response, octane.api_key
+        return response, octane.api_key
 
-        return self._real_request(requestor, method, url, *args, **kwargs)
+        # return self._real_request(requestor, method, url, *args, **kwargs)
 
     def stub_request(self, method, url, rbody={}, rcode=200, rheaders={}):
         self._stub_request_handler.register(

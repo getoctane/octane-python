@@ -226,8 +226,8 @@ class APIRequestor(object):
             "Authorization": "Bearer %s" % (api_key,),
         }
 
-        if method == "post":
-            headers["Content-Type"] = "application/x-www-form-urlencoded"
+        if method == "post" or method == "put":
+            headers["Content-Type"] = "application/json"
             headers.setdefault("Idempotency-Key", str(uuid.uuid4()))
 
         if self.api_version is not None:
@@ -269,20 +269,8 @@ class APIRequestor(object):
             if params:
                 abs_url = _build_api_url(abs_url, encoded_params)
             post_data = None
-        elif method == "post":
-            if (
-                supplied_headers is not None
-                and supplied_headers.get("Content-Type")
-                == "multipart/form-data"
-            ):
-                generator = MultipartDataGenerator()
-                generator.add_params(params or {})
-                post_data = generator.get_post_data()
-                supplied_headers[
-                    "Content-Type"
-                ] = "multipart/form-data; boundary=%s" % (generator.boundary,)
-            else:
-                post_data = encoded_params
+        elif method == "post" or method == "put":
+            post_data = json.dumps(params)
         else:
             raise error.APIConnectionError(
                 "Unrecognized HTTP method %r.  This may indicate a bug in the "
@@ -298,10 +286,9 @@ class APIRequestor(object):
         util.log_info("Request to Octane api", method=method, path=abs_url)
         util.log_debug(
             "Post details",
-            post_data=encoded_params,
+            post_data=post_data,
             api_version=self.api_version,
         )
-
         rbody, rcode, rheaders = self._client.request_with_retries(
             method, abs_url, headers, post_data
         )

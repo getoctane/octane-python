@@ -32,8 +32,8 @@ class ListObject(OctaneObject):
             **params
         )
 
-    def retrieve(self, id, api_key=None, octane_version=None, **params):
-        url = "%s/%s" % (self.get("url"), quote_plus(util.utf8(id)))
+    def retrieve(self, name, api_key=None, octane_version=None, **params):
+        url = "%s/%s" % (self.get("url"), quote_plus(util.utf8(name)))
         return self._request(
             "get",
             url,
@@ -123,7 +123,7 @@ class ListObject(OctaneObject):
                 octane_version=octane_version,
             )
 
-        last_id = self.data[-1].id
+        last_id = self.data[-1].name
 
         params_with_filters = self._retrieve_params.copy()
         params_with_filters.update({"starting_after": last_id})
@@ -142,7 +142,7 @@ class ListObject(OctaneObject):
                 octane_version=octane_version,
             )
 
-        first_id = self.data[0].id
+        first_id = self.data[0].name
 
         params_with_filters = self._retrieve_params.copy()
         params_with_filters.update({"ending_before": first_id})

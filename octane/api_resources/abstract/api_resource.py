@@ -7,8 +7,8 @@ from octane.six.moves.urllib.parse import quote_plus
 
 class APIResource(OctaneObject):
     @classmethod
-    def retrieve(cls, id, api_key=None, **params):
-        instance = cls(id, api_key, **params)
+    def retrieve(cls, name, api_key=None, **params):
+        instance = cls(name, api_key, **params)
         instance.refresh()
         return instance
 
@@ -26,22 +26,22 @@ class APIResource(OctaneObject):
         # Namespaces are separated in object names with periods (.) and in URLs
         # with forward slashes (/), so replace the former with the latter.
         base = cls.OBJECT_NAME.replace(".", "/")
-        return "/v1/%ss" % (base,)
+        return "/%ss" % (base,)
 
     def instance_url(self):
-        id = self.get("id")
+        name = self.get("name")
 
-        if not isinstance(id, six.string_types):
+        if not isinstance(name, six.string_types):
             raise error.InvalidRequestError(
                 "Could not determine which URL to request: %s instance "
                 "has invalid ID: %r, %s. ID should be of type `str` (or"
-                " `unicode`)" % (type(self).__name__, id, type(id)),
-                "id",
+                " `unicode`)" % (type(self).__name__, name, type(name)),
+                "name",
             )
 
-        id = util.utf8(id)
+        name = util.utf8(name)
         base = self.class_url()
-        extn = quote_plus(id)
+        extn = quote_plus(name)
         return "%s/%s" % (base, extn)
 
     # The `method_` and `url_` arguments are suffixed with an underscore to
