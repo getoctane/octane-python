@@ -9,3 +9,4 @@ from octane.api_resources.customer import Customer
 from octane.api_resources.mapping import Mapping
 from octane.api_resources.measurement import Measurement
 from octane.api_resources.meter import Meter
+from octane.api_resources.price_plan import PricePlan

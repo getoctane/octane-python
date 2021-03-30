@@ -15,7 +15,7 @@ def custom_method(name, http_verb, http_path=None):
 
     def wrapper(cls):
         def custom_method_request(cls, sid, **params):
-            url = "%s/%s/%s" % (
+            url = "%s%s/%s" % (
                 cls.class_url(),
                 quote_plus(util.utf8(sid)),
                 http_path,
