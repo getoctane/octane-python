@@ -26,7 +26,7 @@ class APIResource(OctaneObject):
         # Namespaces are separated in object names with periods (.) and in URLs
         # with forward slashes (/), so replace the former with the latter.
         base = cls.OBJECT_NAME.replace(".", "/")
-        return "/%ss" % (base,)
+        return "/%ss/" % (base,)
 
     def instance_url(self):
         name = self.get("name")
@@ -42,7 +42,7 @@ class APIResource(OctaneObject):
         name = util.utf8(name)
         base = self.class_url()
         extn = quote_plus(name)
-        return "%s/%s" % (base, extn)
+        return "%s%s" % (base, extn)
 
     # The `method_` and `url_` arguments are suffixed with an underscore to
     # avoid conflicting with actual request parameters in `params`.

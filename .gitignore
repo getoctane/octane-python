@@ -58,3 +58,7 @@ venv.bak/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# misc
+.DS_Store
+**/.DS_Store

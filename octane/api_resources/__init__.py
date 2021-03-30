@@ -6,5 +6,6 @@ from octane.api_resources.error_object import ErrorObject
 from octane.api_resources.list_object import ListObject
 
 from octane.api_resources.customer import Customer
+from octane.api_resources.mapping import Mapping
 from octane.api_resources.measurement import Measurement
 from octane.api_resources.meter import Meter

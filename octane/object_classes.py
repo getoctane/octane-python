@@ -8,6 +8,7 @@ OBJECT_CLASSES = {
     api_resources.ListObject.OBJECT_NAME: api_resources.ListObject,
     # business objects
     api_resources.Customer.OBJECT_NAME: api_resources.Customer,
+    api_resources.Mapping.OBJECT_NAME: api_resources.Mapping,
     api_resources.Measurement.OBJECT_NAME: api_resources.Measurement,
     api_resources.Meter.OBJECT_NAME: api_resources.Meter,
 }

@@ -12,7 +12,7 @@ class TestCustomMethod(object):
         OBJECT_NAME = "myresource"
 
         def do_stuff(self, idempotency_key=None, **params):
-            url = self.instance_url() + "/do_the_thing"
+            url = self.instance_url() + "do_the_thing"
             headers = util.populate_headers(idempotency_key)
             self.refresh_from(self.request("post", url, params, headers))
             return self

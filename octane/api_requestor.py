@@ -223,7 +223,7 @@ class APIRequestor(object):
         headers = {
             "X-Octane-Client-User-Agent": json.dumps(ua),
             "User-Agent": user_agent,
-            "Authorization": "Bearer %s" % (api_key,),
+            "X-Authorization": "Bearer %s" % (api_key,),
         }
 
         if method == "post" or method == "put":

@@ -31,7 +31,7 @@ class GMT1(datetime.tzinfo):
 
 class APIHeaderMatcher(object):
     EXP_KEYS = [
-        "Authorization",
+        "X-Authorization",
         "Octane-Version",
         "User-Agent",
         "X-Octane-Client-User-Agent",
@@ -88,7 +88,7 @@ class APIHeaderMatcher(object):
         return sorted(other.keys()) == sorted(expected_keys)
 
     def _auth_match(self, other):
-        return other["Authorization"] == "Bearer %s" % (self.api_key,)
+        return other["X-Authorization"] == "Bearer %s" % (self.api_key,)
 
     def _user_agent_match(self, other):
         if self.user_agent is not None:

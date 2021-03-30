@@ -5,7 +5,7 @@ from octane import util
 
 class VerifyMixin(object):
     def verify(self, idempotency_key=None, **params):
-        url = self.instance_url() + "/verify"
+        url = self.instance_url() + "verify"
         headers = util.populate_headers(idempotency_key)
         self.refresh_from(self.request("post", url, params, headers))
         return self

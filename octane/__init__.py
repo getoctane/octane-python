@@ -10,8 +10,6 @@ import os
 api_key = None
 client_id = None
 api_base = "https://api.cloud.getoctane.io"
-connect_api_base = "https://connect.cloud.getoctane.io"
-upload_api_base = "https://files.cloud.getoctane.io"
 api_version = None
 verify_ssl_certs = True
 proxy = None
