@@ -12,4 +12,5 @@ OBJECT_CLASSES = {
     api_resources.Measurement.OBJECT_NAME: api_resources.Measurement,
     api_resources.Meter.OBJECT_NAME: api_resources.Meter,
     api_resources.PricePlan.OBJECT_NAME: api_resources.PricePlan,
+    api_resources.Subscription.OBJECT_NAME: api_resources.Subscription,
 }
