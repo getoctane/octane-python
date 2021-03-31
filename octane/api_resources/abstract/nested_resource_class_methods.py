@@ -16,7 +16,7 @@ def nested_resource_class_methods(
 
     def wrapper(cls):
         def nested_resource_url(cls, name, nested_name=None):
-            url = "%s/%s/%s" % (
+            url = "%s%s/%s" % (
                 cls.class_url(),
                 quote_plus(name),
                 quote_plus(path),
