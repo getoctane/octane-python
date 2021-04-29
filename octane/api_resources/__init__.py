@@ -11,4 +11,5 @@ from octane.api_resources.measurement import Measurement
 from octane.api_resources.meter import Meter
 from octane.api_resources.price_plan import PricePlan
 from octane.api_resources.price_list import PriceList
+from octane.api_resources.payment_gateway_credential import PaymentGatewayCredential
 from octane.api_resources.subscription import Subscription

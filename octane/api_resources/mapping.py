@@ -1,25 +1,16 @@
 from __future__ import absolute_import, division, print_function
 
-from octane import util
 from octane.api_resources.abstract import (
     CreateableAPIResource,
     DeletableAPIResource,
     ListableAPIResource,
 )
-from octane.api_resources.customer import Customer
-from octane.six.moves.urllib.parse import quote_plus
 
 
 class Mapping(
     CreateableAPIResource, ListableAPIResource, DeletableAPIResource
 ):
-    OBJECT_NAME = "customer_mapping"
-
-    def instance_url(self):
-        customer = util.utf8(self.customer)
-        base = Customer.class_url()
-        cust_extn = quote_plus(customer)
-        return "%s%s/mappings" % (base, cust_extn)
+    OBJECT_NAME = "mapping"
 
     @classmethod
     def create(cls, sid, **params):

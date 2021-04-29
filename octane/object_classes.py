@@ -9,6 +9,7 @@ OBJECT_CLASSES = {
     # business objects
     api_resources.Customer.OBJECT_NAME: api_resources.Customer,
     api_resources.Mapping.OBJECT_NAME: api_resources.Mapping,
+    api_resources.PaymentGatewayCredential.OBJECT_NAME: api_resources.PaymentGatewayCredential,
     api_resources.Measurement.OBJECT_NAME: api_resources.Measurement,
     api_resources.Meter.OBJECT_NAME: api_resources.Meter,
     api_resources.PricePlan.OBJECT_NAME: api_resources.PricePlan,
