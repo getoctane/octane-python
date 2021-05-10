@@ -31,6 +31,7 @@ setup(
     package_data={"octane": ["data/ca-certificates.crt"]},
     zip_safe=False,
     install_requires=[
+        'humbug; python_version >= "3.5"',
         'requests >= 2.20; python_version >= "3.0"',
         'requests[security] >= 2.20; python_version < "3.0"',
     ],
