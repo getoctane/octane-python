@@ -43,7 +43,7 @@ Then, from within your application, import the module:
 
 ```python
 import os, octane
-octane.api_key = os.environ.get('OCTANE_API_KEY')
+octane.api_key = os.getenv('OCTANE_API_KEY')
 ```
 
 ## Example apps
@@ -56,58 +56,99 @@ how to use the Octane Python library in real-world settings:
 
 ## Making API calls
 
-The `TODO` class provides programmatic access to the Octane API.
-
-TODO
+The `octane` instance provides programmatic access to the Octane API.
 
 ### Customers API
 
-TODO provides the ability to
+The `Customer` namespace on the `octane` instance provides the ability to
 make calls to the Octane Customers API.
 
 #### Example: Creating a new customer
 
 ```python
-TODO
+customer_name = "r2d2"
+
+octane.Customer.create(
+    name=customer_name,
+    measurement_mappings=[{
+        "label": "customer_name",
+        "value_regex": customer_name
+    }]
+)
 ```
 
 #### Example: Subscribe a customer to a price plan
 
 ```python
-TODO
+customer_name = "r2d2"
+price_plan_name = "droidplan"
+
+octane.Customer.create_subscription(customer_name, price_plan_name=price_plan_name)
 ```
 
 ### Meters API
 
-TODO provides the ability to
+The `Meter` namespace on the `octane` instance provides the ability to
 make calls to the Octane Meters API.
 
 #### Example: Creating a new meter
 
 ```python
-TODO
+meter_name = "droidrepairs"
+
+octane.Meter.create(
+    name=meter_name,
+    meter_type="COUNTER",
+    is_incremental=True,
+    expected_labels=["customer_name"]
+)
 ```
 
 ### Price Plans API
 
-TODO provides the ability to
+The `PricePlan` namespace on the `octane` instance provides the ability to
 make calls to the Octane Price Plans API.
 
 #### Example: Creating a new price plan
 
 ```python
-TODO
+price_plan_name = "droidplan"
+price_plan_rate = 10000  # $100.00
+meter_name = "droidrepairs"
+
+octane.PricePlan.create(
+    name=price_plan_name,
+    period="month",
+    metered_components=[{
+        "meter_name": meter_name,
+        "price_scheme": {
+            "prices": [{
+                "price": price_plan_rate
+            }],
+            "scheme_type": "FLAT"
+        }
+    }]
+)
 ```
 
 ### Measurements API
 
-TODO provides the ability to
+The `Measurement` namespace on the `octane` instance provides the ability to
 make calls to the Octane Measurements API.
 
 #### Example: Sending a measurement
 
 ```python
-TODO
+meter_name = "droidrepairs"
+customer_name = "r2d2"
+
+octane.Measurement.create(
+    meter_name=meter_name,
+    value=1,
+    labels={
+        "customer_name": customer_name
+    }
+)
 ```
 
 ## Development
