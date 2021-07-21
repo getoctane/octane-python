@@ -1,2 +1,3 @@
 Flask==2.0.1
+coolname==1.1.0
 octane==1.0.7

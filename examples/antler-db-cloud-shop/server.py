@@ -2,7 +2,8 @@
 
 import octane
 from os import getenv
-from flask import Flask, send_from_directory
+from coolname import generate_slug
+from flask import Flask, request, make_response, send_from_directory
 
 octane.api_key = getenv("OCTANE_API_KEY")
 
@@ -40,6 +41,52 @@ def public_styles_css():
 def check_octane_api_key():
     if not octane.api_key:
         raise Exception("Must set OCTANE_API_KEY.")
+
+
+@app.route("/api/whoami")
+def api_whoami():
+    if request.cookies.get("username"):
+        return {
+            "code": 200,
+            "name": request.cookies.get("username"),
+            "url": octane_redirect_url
+        }
+
+    # If no cookie, then generate a name and create the customer in Octane
+    name = generate_slug(2)
+    print(f"[octane] Attempting to create new customer \"{name}\"")
+
+    try:
+        octane.Customer.create(
+            name=name,
+            measurement_mappings=[{
+                "label": "customer_name",
+                "value_regex": name
+            }],
+        )
+        print(f"[octane] Customer \"{name}\" successfully created")
+        print(f"[octane] Attempting to subscribe customer \"{name}\" " +
+              f"to price plan \"{price_plan_name}\"")
+        try:
+            octane.Customer.create_subscription(name, price_plan_name=price_plan_name)
+            print(f"[octane] Successfully subscribed customer \"{name}\" " +
+                  f"to price plan \"{price_plan_name}\"")
+            resp = make_response({
+                "code": 201,
+                "name": name,
+                "url": octane_redirect_url,
+            })
+            resp.set_cookie("username", name)
+            return resp, 201
+
+        except octane.error.APIError as e:
+            print("[octane] Error subscribing customer \"{name}\" " +
+                  f"to price plan \"{price_plan_name}\"")
+            return e.http_json, e.http_status
+
+    except octane.error.APIError as e:
+        print("[octane] Error creating customer \"{name}\"")
+        return e.http_json, e.http_status
 
 
 def check_octane_resource_meter(meter):
