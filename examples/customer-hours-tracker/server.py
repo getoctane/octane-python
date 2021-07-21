@@ -2,7 +2,7 @@
 
 import octane
 from os import getenv
-from flask import Flask, request, make_response, send_from_directory
+from flask import Flask, request, jsonify, make_response, send_from_directory
 
 octane.api_key = getenv("OCTANE_API_KEY")
 
@@ -31,6 +31,48 @@ def public_scripts_js():
 def public_styles_css():
     return send_from_directory("public", "styles.css")
 
+
+@app.route("/api/customers", methods=["GET"])
+def api_customers():
+    print("[octane] Listing customers in account")
+    try:
+        customers = octane.Customer.list()
+        return jsonify(customers)
+    except octane.error.APIError as e:
+        print("[octane] Error listing customers in account")
+        return e.json_body, e.http_status
+
+
+@app.route("/api/customers/<name>", methods=["DELETE"])
+def api_customers_name_delete(name):
+    return {
+        "code": 501,
+        "status": "Not Implemented",
+        "message": "Python version does not yet support customer deletion"
+    }, 501
+    # TODO: uncomment below
+    """
+    print(f"[octane] Attempting to unsubscribe customer \"{name}\" " +
+          f"from price plan \"{price_plan_name}\"")
+    try:
+        octane.Customer.delete_subscription(name)
+        print(f"[octane] Customer \"{name}\" successfully unsubscribed " +
+              f"from price plan \"{price_plan_name}\"")
+        print("f[octane] Attempting to delete customer \"{name}\"")
+        try:
+            octane.Customer.delete(name)
+            return {
+                "code": 200,
+                "message": "success"
+            }
+        except octane.error.APIError as e:
+            print(f"[octane] Error deleting customer \"{name}\"")
+            return e.json_body, e.http_status
+    except octane.error.APIError as e:
+        print(f"[octane] Error unsubscribing customer \"{name}\" " +
+              f"from price plan \"{price_plan_name}\"")
+        return e.json_body, e.http_status
+    """
 
 def check_octane_api_key():
     if not octane.api_key:
