@@ -1,7 +1,6 @@
 # Example: Antler DB Cloud Shop
 
-This is a simple Node.js webapp that makes use
-of `octane-node`.
+This is a simple Python webapp that makes use of `octane`.
 
 ![antler-db-cloud-shop](./screenshot.png)
 
