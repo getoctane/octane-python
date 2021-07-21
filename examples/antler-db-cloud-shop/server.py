@@ -21,29 +21,32 @@ meter_rate_storage = getenv("env.OCTANE_METER_RATE_STORAGE", 2)
 meter_rate_bandwidth = getenv("env.OCTANE_METER_RATE_BANDWIDTH", 5)
 meter_rate_machines = getenv("env.OCTANE_METER_RATE_MACHINES", 10)
 
+# The frontend sends us generic resource names,
+# which we convert to meter names
+resource_meter_map = {
+    "storage": meter_name_storage,
+    "bandwidth": meter_name_bandwidth,
+    "machines": meter_name_machines,
+}
+
 
 @app.route("/")
-@app.route("/index.html")
+@app.route("/index.html", methods=["GET"])
 def public_index_html():
     return send_from_directory("public", "index.html")
 
 
-@app.route("/scripts.js")
+@app.route("/scripts.js", methods=["GET"])
 def public_scripts_js():
     return send_from_directory("public", "scripts.js")
 
 
-@app.route("/styles.css")
+@app.route("/styles.css", methods=["GET"])
 def public_styles_css():
     return send_from_directory("public", "styles.css")
 
 
-def check_octane_api_key():
-    if not octane.api_key:
-        raise Exception("Must set OCTANE_API_KEY.")
-
-
-@app.route("/api/whoami")
+@app.route("/api/whoami", methods=["GET"])
 def api_whoami():
     if request.cookies.get("username"):
         return {
@@ -82,11 +85,60 @@ def api_whoami():
         except octane.error.APIError as e:
             print("[octane] Error subscribing customer \"{name}\" " +
                   f"to price plan \"{price_plan_name}\"")
-            return e.http_json, e.http_status
+            return e.json_body, e.http_status
 
     except octane.error.APIError as e:
         print("[octane] Error creating customer \"{name}\"")
-        return e.http_json, e.http_status
+        return e.json_body, e.http_status
+
+
+@app.route("/api/resources", methods=["POST"])
+def api_resources():
+    if not request.cookies.get("username"):
+        return {
+            "code": 403,
+            "message": "No session, please refresh"
+        }, 403
+
+    data = request.json
+    resource = data["resource"]
+    if resource not in resource_meter_map:
+        return {
+           "code": 400,
+           "message": "Invalid resource provided"
+        }, 400
+
+    meter_name = resource_meter_map[resource]
+
+    value = data["value"]
+    username = request.cookies.get("username")
+    print("[octane] Attempting to create measurement " +
+           f"for customer \"{username}\"")
+    try:
+        octane.Measurement.create(
+            meter_name=meter_name,
+            value=int(value),
+            labels={
+                "customer_name": username
+            }
+        )
+        print(f"[octane] Measurement for customer \"{username}\" " +
+              f"for meter \"{meter_name}\" successfully created")
+        return {
+            "code": 201,
+            "message": "success"
+        }, 201
+
+    except octane.error.APIError as e:
+        print("[octane] Error creating measurement " +
+                      f"for customer \"{username}\" " +
+                      f"for meter \"{meter_name}\"")
+        return e.json_body, e.http_status
+
+
+def check_octane_api_key():
+    if not octane.api_key:
+        raise Exception("Must set OCTANE_API_KEY.")
 
 
 def check_octane_resource_meter(meter):
