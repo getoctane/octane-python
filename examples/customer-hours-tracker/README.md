@@ -34,6 +34,8 @@ When you click the "Delete" button in the browser next to
 a customer, this will unsubscribe the associated Octane customer
 from the price plan, and then delete them.
 
+*Note: The Python version does not yet support deletion of customers.*
+
 ## How to run
 
 If not already installed, install `virtualenv`:
