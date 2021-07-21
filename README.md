@@ -1,6 +1,6 @@
 # Octane Python Library
 
-TODO
+[![Version](https://img.shields.io/pypi/v/octane.svg)](https://pypi.org/project/octane/)
 [![GitHub Actions status](https://github.com/getoctane/octane-python/workflows/build/badge.svg)](https://github.com/getoctane/octane-python/actions?query=workflow%3Abuild+)
 
 [![Octane](./octane.png)](https://www.getoctane.io/)
