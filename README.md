@@ -112,15 +112,6 @@ TODO
 
 ## Development
 
-The test suite depends on [octane-mock], so make sure to fetch and run it from a
-background terminal ([octane-mock's README][octane-mock] also contains
-instructions for installing via Homebrew and other methods):
-
-```sh
-go get -u github.com/octane/octane-mock
-octane-mock
-```
-
 Run the following command to set up the development virtualenv:
 
 ```sh
