@@ -12,4 +12,4 @@ jobs:
       - name: Test and build octane-python
         run: |
           make
-          make test
+          TOX_ARGS="-e py37" make test
