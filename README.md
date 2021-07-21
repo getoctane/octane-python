@@ -43,7 +43,7 @@ Then, from within your application, import the module:
 
 ```python
 import os, octane
-octane.api_key = os.getenv('OCTANE_API_KEY')
+octane.api_key = os.getenv("OCTANE_API_KEY")
 ```
 
 ## Example apps
