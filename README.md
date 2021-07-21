@@ -112,7 +112,67 @@ TODO
 
 ## Development
 
-TODO
+The test suite depends on [octane-mock], so make sure to fetch and run it from a
+background terminal ([octane-mock's README][octane-mock] also contains
+instructions for installing via Homebrew and other methods):
+
+```sh
+go get -u github.com/octane/octane-mock
+octane-mock
+```
+
+Run the following command to set up the development virtualenv:
+
+```sh
+make
+```
+
+Run all tests on all supported Python versions:
+
+```sh
+make test
+```
+
+Run all tests for a specific Python version (modify `-e` according to your Python target):
+
+```sh
+TOX_ARGS="-e py37" make test
+```
+
+Run all tests in a single file:
+
+```sh
+TOX_ARGS="-e py37 -- tests/api_resources/abstract/test_updateable_api_resource.py" make test
+```
+
+Run a single test suite:
+
+```sh
+TOX_ARGS="-e py37 -- tests/api_resources/abstract/test_updateable_api_resource.py::TestUpdateableAPIResource" make test
+```
+
+Run a single test:
+
+```sh
+TOX_ARGS="-e py37 -- tests/api_resources/abstract/test_updateable_api_resource.py::TestUpdateableAPIResource::test_save" make test
+```
+
+Run the linter with:
+
+```sh
+make lint
+```
+
+The library uses [Black][black] for code formatting. Code must be formatted
+with Black before PRs are submitted, otherwise CI will fail. Run the formatter
+with:
+
+```sh
+make fmt
+```
+
+[black]: https://github.com/ambv/black
+[octane-mock]: https://github.com/octane/octane-mock
 
 ## Contributing
 
