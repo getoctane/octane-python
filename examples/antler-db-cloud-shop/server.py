@@ -53,7 +53,7 @@ def check_octane_resource_meter(meter):
             raise Exception("Unauthorized, please check your OCTANE_API_KEY.")
         print(f"[octane] Meter \"{name}\" does not exist, creating")
         try:
-            octane.Meter.create(**meter)
+            octane.Meter.create(**meter)  # convert dictionary to keyword args
             print(f"[octane] Meter \"{name}\" successfully created")
         except octane.error.APIError as e:
             print(e.http_body)
@@ -93,7 +93,54 @@ def check_octane_resource_meter_machines():
 
 
 def check_octane_resource_price_plan():
-    pass
+    print(f"[octane] Checking if price plan \"{price_plan_name}\" exists")
+    try:
+        octane.PricePlan.retrieve(price_plan_name)
+        print(f"[octane] Price plan \"{price_plan_name}\" already exists")
+    except octane.error.APIError as e:
+        if e.http_status == 401:
+            raise Exception("Unauthorized, please check your OCTANE_API_KEY.")
+        print(f"[octane] Price plan \"{price_plan_name}\" does not exist, creating")
+        try:
+            octane.PricePlan.create(
+                name=price_plan_name,
+                period="month",
+                metered_components=[
+                    {
+                        "meter_name": meter_name_storage,
+                        "price_scheme": {
+                            "prices": [{
+                                "price": int(meter_rate_storage) * 100
+                            }],
+                            "scheme_type": "FLAT",
+                            "unit_name": "gigabyte"
+                        }
+                    },
+                    {
+                        "meter_name": meter_name_bandwidth,
+                        "price_scheme": {
+                            "prices": [{
+                                "price": int(meter_rate_bandwidth) * 100
+                            }],
+                            "scheme_type": "FLAT",
+                            "unit_name": "gigabyte"
+                        }
+                    },
+                    {
+                        "meter_name": meter_name_machines,
+                        "price_scheme": {
+                            "prices": [{
+                                "price": int(meter_rate_machines) * 100
+                            }],
+                            "scheme_type": "FLAT"
+                        }
+                    }
+                ]
+            )
+            print(f"[octane] Price plan \"{price_plan_name}\" successfully created")
+        except octane.error.APIError as e:
+            print(e.http_body)
+            raise Exception("Unable to create price plan")
 
 
 if __name__ == "__main__":
