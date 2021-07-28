@@ -21,6 +21,9 @@ from octane.api_resources.abstract import UpdateableAPIResource
 @custom_method(
     "revenue", "get"
 )
+@custom_method(
+    "usage", "get"
+)
 class Customer(
     CreateableAPIResource,
     DeletableAPIResource,
@@ -31,6 +34,12 @@ class Customer(
 
     def revenue(self, idempotency_key=None, **params):
         url = self.instance_url() + "/revenue"
+        headers = util.populate_headers(idempotency_key)
+        self.refresh_from(self.request("get", url, params, headers))
+        return self
+
+    def usage(self, idempotency_key=None, **params):
+        url = self.instance_url() + "/usage"
         headers = util.populate_headers(idempotency_key)
         self.refresh_from(self.request("get", url, params, headers))
         return self
