@@ -24,7 +24,7 @@ setup(
     long_description_content_type="text/x-rst",
     author="Octane",
     author_email="support@getoctane.io",
-    url="https://github.com/octane/octane-python",
+    url="https://github.com/getoctane/octane-python",
     license="MIT",
     keywords="octane api",
     packages=find_packages(exclude=["tests", "tests.*"]),
@@ -36,9 +36,9 @@ setup(
     ],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     project_urls={
-        "Bug Tracker": "https://github.com/octane/octane-python/issues",
+        "Bug Tracker": "https://github.com/getoctane/octane-python/issues",
         "Documentation": "https://getoctane.io/docs/api/python",
-        "Source Code": "https://github.com/octane/octane-python",
+        "Source Code": "https://github.com/getoctane/octane-python",
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
