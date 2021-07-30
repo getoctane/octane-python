@@ -15,7 +15,7 @@ You can install this package by using the pip tool and installing:
 Setting up a Octane Account
 ---------------------------
 
-Sign up for Octane at https://cloud.getoctane.io/register.
+Sign up for Octane at https://cloud.getoctane.io/.
 
 Using the Octane API
 --------------------
