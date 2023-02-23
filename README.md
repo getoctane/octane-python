@@ -10,20 +10,20 @@ to the Octane API for Python applications.
 
 ---
 
-- [Getting started](#getting-started)
-- [Example apps](#example-apps)
-- [Making API calls](#making-api-calls)
-    - [Customers API](#customers-api)
-        - [Example: Creating a new customer](#example-creating-a-new-customer)
-        - [Example: Subscribe a customer to a price plan](#example-subscribe-a-customer-to-a-price-plan)
-    - [Meters API](#meters-api)
-        - [Example: Creating a new meter](#example-creating-a-new-meter)
-    - [Price Plans API](#price-plans-api)
-        - [Example: Creating a new price plan](#example-creating-a-new-price-plan)
-    - [Measurements API](#measurements-api)
-        - [Example: Sending a measurement](#example-sending-a-measurement)
-- [Development](#development)
-- [Contributing](#contributing)
+-   [Getting started](#getting-started)
+-   [Example apps](#example-apps)
+-   [Making API calls](#making-api-calls)
+    -   [Customers API](#customers-api)
+        -   [Example: Creating a new customer](#example-creating-a-new-customer)
+        -   [Example: Subscribe a customer to a price plan](#example-subscribe-a-customer-to-a-price-plan)
+    -   [Meters API](#meters-api)
+        -   [Example: Creating a new meter](#example-creating-a-new-meter)
+    -   [Price Plans API](#price-plans-api)
+        -   [Example: Creating a new price plan](#example-creating-a-new-price-plan)
+    -   [Measurements API](#measurements-api)
+        -   [Example: Sending a measurement](#example-sending-a-measurement)
+-   [Development](#development)
+-   [Contributing](#contributing)
 
 ## Getting started
 
@@ -51,8 +51,8 @@ octane.api_key = os.getenv("OCTANE_API_KEY")
 The following demo applications found in the [examples/](./examples/) directory display
 how to use the Octane Python library in real-world settings:
 
-- [antler-db-cloud-shop](examples/antler-db-cloud-shop/) - Enable your customers to self-service various cloud resources
-- [customer-hours-tracker](./examples/customer-hours-tracker/) - Track hours spent working on freelance projects
+-   [antler-db-cloud-shop](examples/antler-db-cloud-shop/) - Enable your customers to self-service various cloud resources
+-   [customer-hours-tracker](./examples/customer-hours-tracker/) - Track hours spent working on freelance projects
 
 ## Making API calls
 
@@ -144,10 +144,32 @@ customer_name = "r2d2"
 
 octane.Measurement.create(
     meter_name=meter_name,
+    customer_name=customer_name,
     value=1,
-    labels={
-        "customer_name": customer_name
-    }
+)
+```
+
+#### Example: Sending a batch of measurements
+
+```python
+meter_name = "droidrepairs"
+customer_name = "r2d2"
+
+octane.Measurement.create_multi(
+    measurements=[
+        {
+            "meter_name": meter_name,
+            "customer_name": customer_name,
+            "value": 1,
+            "time": "2023-01-01T00:00:00",
+        },
+        {
+            "meter_name": meter_name,
+            "customer_name": customer_name,
+            "value": 1,
+            "time": "2023-01-02T00:00:00",
+        },
+    ]
 )
 ```
 
