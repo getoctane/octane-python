@@ -11,7 +11,6 @@ from collections import OrderedDict
 
 import octane
 from octane import error, http_client, version, util, six
-from octane.multipart_data_generator import MultipartDataGenerator
 from octane.six.moves.urllib.parse import urlencode, urlsplit, urlunsplit
 from octane.octane_response import OctaneResponse
 

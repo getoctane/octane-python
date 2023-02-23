@@ -48,7 +48,7 @@ def api_customers_name_delete(name):
     return {
         "code": 501,
         "status": "Not Implemented",
-        "message": "Python version does not yet support customer deletion"
+        "message": "Python version does not yet support customer deletion",
     }, 501
 
     # TODO: uncomment below once deletion is supported
@@ -80,32 +80,36 @@ def api_customers_name_delete(name):
 def api_customers_post():
     data = request.json
     name = data["name"]
-    print(f"[octane] Attempting to create new customer \"{name}\"")
+    print(f'[octane] Attempting to create new customer "{name}"')
     try:
         octane.Customer.create(
             name=name,
-            measurement_mappings=[{
-                "label": "customer_name",
-                "value_regex": name
-            }]
+            measurement_mappings=[
+                {"label": "customer_name", "value_regex": name}
+            ],
         )
-        print(f"[octane] Customer \"{name}\" successfully created")
-        print(f"[octane] Attempting to subscribe customer \"{name}\" " +
-              f"to price plan \"{price_plan_name}\"")
+        print(f'[octane] Customer "{name}" successfully created')
+        print(
+            f'[octane] Attempting to subscribe customer "{name}" '
+            + f'to price plan "{price_plan_name}"'
+        )
         try:
-            octane.Customer.create_subscription(name, price_plan_name=price_plan_name)
-            print(f"[octane] Successfully subscribed customer \"{name}\"" +
-                  f"to price plan \"{price_plan_name}\"")
-            return {
-                "code": 201,
-                "message": "success"
-            }, 201
+            octane.Customer.create_subscription(
+                name, price_plan_name=price_plan_name
+            )
+            print(
+                f'[octane] Successfully subscribed customer "{name}"'
+                + f'to price plan "{price_plan_name}"'
+            )
+            return {"code": 201, "message": "success"}, 201
         except octane.error.APIError as e:
-            print(f"[octane] Error subscribing customer \"{name}\" " +
-                  f"to price plan \"{price_plan_name}\"")
+            print(
+                f'[octane] Error subscribing customer "{name}" '
+                + f'to price plan "{price_plan_name}"'
+            )
             return e.json_body, e.http_status
     except octane.error.APIError as e:
-        print("[octane] Error creating customer \"{name}\"")
+        print('[octane] Error creating customer "{name}"')
         return e.json_body, e.http_status
 
 
@@ -114,22 +118,19 @@ def api_hours_post():
     data = request.json
     name = data["name"]
     hours = data["hours"]
-    print(f"[octane] Attempting to create measurement for customer \"{name}\"")
+    print(f'[octane] Attempting to create measurement for customer "{name}"')
     try:
         octane.Measurement.create(
             meter_name=meter_name,
             value=int(hours),
-            labels={
-                "customer_name": name
-            }
+            labels={"customer_name": name},
         )
-        print(f"[octane] Measurement for customer \"{name}\" successfully created")
-        return {
-            "code": 201,
-            "message": "success"
-        }, 201
+        print(
+            f'[octane] Measurement for customer "{name}" successfully created'
+        )
+        return {"code": 201, "message": "success"}, 201
     except octane.error.APIError as e:
-        print("[octane] Error creating measurement for customer \"{name}\"")
+        print('[octane] Error creating measurement for customer "{name}"')
         return e.json_body, e.http_status
 
 
@@ -139,14 +140,14 @@ def check_octane_api_key():
 
 
 def check_octane_resource_meter():
-    print(f"[octane] Checking if meter \"{meter_name}\" exists")
+    print(f'[octane] Checking if meter "{meter_name}" exists')
     try:
         octane.Meter.retrieve(meter_name)
-        print(f"[octane] Meter \"{meter_name}\" already exists")
+        print(f'[octane] Meter "{meter_name}" already exists')
     except octane.error.APIError as e:
         if e.http_status == 401:
             raise Exception("Unauthorized, please check your OCTANE_API_KEY.")
-        print(f"[octane] Meter \"{meter_name}\" does not exist, creating")
+        print(f'[octane] Meter "{meter_name}" does not exist, creating')
         try:
             octane.Meter.create(
                 name=meter_name,
@@ -154,40 +155,44 @@ def check_octane_resource_meter():
                 meter_type="COUNTER",
                 unit_name="hour",
                 is_incremental=True,
-                expected_labels=["customer_name"]
+                expected_labels=["customer_name"],
             )
-            print(f"[octane] Meter \"{meter_name}\" successfully created")
+            print(f'[octane] Meter "{meter_name}" successfully created')
         except octane.error.APIError as e:
             print(e.http_body)
             raise Exception("Unable to create meter")
 
 
 def check_octane_resource_price_plan():
-    print(f"[octane] Checking if price plan \"{price_plan_name}\" exists")
+    print(f'[octane] Checking if price plan "{price_plan_name}" exists')
     try:
         octane.PricePlan.retrieve(price_plan_name)
-        print(f"[octane] Price plan \"{price_plan_name}\" already exists")
+        print(f'[octane] Price plan "{price_plan_name}" already exists')
     except octane.error.APIError as e:
         if e.http_status == 401:
             raise Exception("Unauthorized, please check your OCTANE_API_KEY.")
-        print(f"[octane] Price plan \"{price_plan_name}\" does not exist, creating")
+        print(
+            f'[octane] Price plan "{price_plan_name}" does not exist, creating'
+        )
         try:
             rate = int(price_plan_rate) * 100  # convert dollars to cents
             octane.PricePlan.create(
                 name=price_plan_name,
                 period="month",
-                metered_components=[{
-                    "meter_name": meter_name,
-                    "price_scheme": {
-                        "prices": [{
-                            "price": rate
-                        }],
-                        "scheme_type": "FLAT",
-                        "unit_name": "hour"
+                metered_components=[
+                    {
+                        "meter_name": meter_name,
+                        "price_scheme": {
+                            "prices": [{"price": rate}],
+                            "scheme_type": "FLAT",
+                            "unit_name": "hour",
+                        },
                     }
-                }]
+                ],
             )
-            print(f"[octane] Price plan \"{price_plan_name}\" successfully created")
+            print(
+                f'[octane] Price plan "{price_plan_name}" successfully created'
+            )
         except octane.error.APIError as e:
             print(e.http_body)
             raise Exception("Unable to create price plan")

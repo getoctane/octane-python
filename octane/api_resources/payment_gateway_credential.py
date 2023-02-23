@@ -5,11 +5,11 @@ from octane.api_resources.abstract import (
 )
 
 
-class PaymentGatewayCredential(
-    CreateableAPIResource
-):
+class PaymentGatewayCredential(CreateableAPIResource):
     OBJECT_NAME = "payment_gateway_credential"
 
     @classmethod
     def retrieve(cls, id, api_key=None, **params):
-        raise NotImplementedError("Can't retrieve a payment_gateway_credential.")
+        raise NotImplementedError(
+            "Can't retrieve a payment_gateway_credential."
+        )

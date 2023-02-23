@@ -5,6 +5,7 @@ from octane.api_resources.abstract import DeletableAPIResource
 from octane.api_resources.abstract import ListableAPIResource
 from octane.api_resources.abstract import UpdateableAPIResource
 
+
 class PricePlan(
     CreateableAPIResource,
     DeletableAPIResource,

@@ -1,15 +1,8 @@
 from __future__ import absolute_import, division, print_function
 
-import atexit
-import os
-import sys
-from distutils.version import StrictVersion
-
 import pytest
 
 import octane
-from octane.six.moves.urllib.request import urlopen
-from octane.six.moves.urllib.error import HTTPError
 
 from tests.request_mock import RequestMock
 
