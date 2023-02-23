@@ -181,7 +181,7 @@ class TestOctaneObject(object):
     def test_repr(self):
         obj = octane.octane_object.OctaneObject("foo", "bar", myparam=5)
 
-        obj["object"] = u"\u4e00boo\u1f00"
+        obj["object"] = "\u4e00boo\u1f00"
         obj.date = datetime.datetime.fromtimestamp(1511136000)
 
         res = repr(obj)
@@ -189,9 +189,9 @@ class TestOctaneObject(object):
         if six.PY2:
             res = six.text_type(repr(obj), "utf-8")
 
-        assert u"<OctaneObject \u4e00boo\u1f00" in res
-        assert u"id=foo" in res
-        assert u'"date": 1511136000' in res
+        assert "<OctaneObject \u4e00boo\u1f00" in res
+        assert "id=foo" in res
+        assert '"date": 1511136000' in res
 
     def test_pickling(self):
         obj = octane.octane_object.OctaneObject("foo", "bar", myparam=5)

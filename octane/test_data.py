@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import timedelta
 import dateutil.parser
 import time
 
@@ -14,12 +14,12 @@ NUM_SOURCES = 10
 
 
 def customer_name(i):
-    return f"customer_{i}"
+    return "customer_{i}".format(i=i)
 
 
 for i in range(NUM_CUSTOMERS):
     name = customer_name(i)
-    octane.Customer.create(name=name, display_name=f"Customer {i}")
+    octane.Customer.create(name=name, display_name="Customer {i}".format(i=i))
     octane.Customer.create_mapping(name, label="customer", value_regex="name")
 
 count = 0
@@ -31,7 +31,10 @@ while True:
                 meter_name="tot_gauge_meter",
                 time=d.isoformat(),
                 value=i * count,
-                labels={"name": customer_name(i), "source": f"source_{j}"},
+                labels={
+                    "name": customer_name(i),
+                    "source": "source_{j}".format(j=j),
+                },
             )
     count += 1
     d += timedelta(minutes=1)

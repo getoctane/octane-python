@@ -9,21 +9,15 @@ from octane.api_resources.abstract import ListableAPIResource
 from octane.api_resources.abstract import UpdateableAPIResource
 
 
-@nested_resource_class_methods(
-    "subscription", operations=["create"]
-)
+@nested_resource_class_methods("subscription", operations=["create"])
 @nested_resource_class_methods(
     "mapping", operations=["create", "list", "delete"]
 )
 @nested_resource_class_methods(
     "payment_gateway_credential", operations=["create"]
 )
-@custom_method(
-    "revenue", "get"
-)
-@custom_method(
-    "usage", "get"
-)
+@custom_method("revenue", "get")
+@custom_method("usage", "get")
 class Customer(
     CreateableAPIResource,
     DeletableAPIResource,

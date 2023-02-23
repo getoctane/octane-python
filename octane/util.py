@@ -95,9 +95,9 @@ def logfmt(props):
         # key should already be a string
         if re.search(r"\s", key):
             key = repr(key)
-        return u"{key}={val}".format(key=key, val=val)
+        return "{key}={val}".format(key=key, val=val)
 
-    return u" ".join([fmt(key, val) for key, val in sorted(props.items())])
+    return " ".join([fmt(key, val) for key, val in sorted(props.items())])
 
 
 # Borrowed from Django's source code
@@ -105,7 +105,6 @@ if hasattr(hmac, "compare_digest"):
     # Prefer the stdlib implementation, when available.
     def secure_compare(val1, val2):
         return hmac.compare_digest(utf8(val1), utf8(val2))
-
 
 else:
 
