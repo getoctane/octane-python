@@ -9,7 +9,7 @@ from octane.api_resources.abstract import ListableAPIResource
 from octane.api_resources.abstract import UpdateableAPIResource
 
 
-@nested_resource_class_methods("subscription", operations=["create"])
+@nested_resource_class_methods("subscription", operations=["create", "update"])
 @nested_resource_class_methods(
     "mapping", operations=["create", "list", "delete"]
 )
